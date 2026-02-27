@@ -30,7 +30,6 @@ export default function CompaniesView() {
   const stages = ['All', 'Seed', 'Series A', 'Series B', 'Series C', 'Growth'];
 
   const filteredCompanies = useMemo(() => {
-    setCurrentPage(1); // Reset to first page on filter change
     return MOCK_COMPANIES.filter(company => {
       const matchesSearch = company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           company.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -45,6 +44,10 @@ export default function CompaniesView() {
       }
       return 0;
     });
+  }, [searchQuery, sectorFilter, stageFilter, sortField, sortOrder]);
+
+  useEffect(() => {
+    setCurrentPage(1);
   }, [searchQuery, sectorFilter, stageFilter, sortField, sortOrder]);
 
   const totalPages = Math.ceil(filteredCompanies.length / pageSize);
